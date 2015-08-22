@@ -67,19 +67,60 @@ Game.prototype.movePlayer = function (key){
 
     console.log("Move: " +key.keyCode );
 
-    if (key.keyCode == KEY_UP){
-        this.activePlayer.moveUp(1);
-
-    } else if (key.keyCode == KEY_DOWN){
-        this.activePlayer.moveDown(1);
-
-    } else if(key.keyCode == KEY_LEFT){
-        this.activePlayer.moveLeft(1);
-
-    } else if(key.keyCode == KEY_RIGHT){
-        this.activePlayer.moveRight(1);
+    if (key.keyCode == KEY_UP) {
+        if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY - 1)) {
+            var maxY = this.maxMovementUp(this.activePlayer);
+            this.activePlayer.moveUp(1, maxY);
+        }
+    }
+    else if (key.keyCode == KEY_DOWN) {
+        if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY + 1)) {
+            var maxY = this.maxMovementDown(this.activePlayer);
+            this.activePlayer.moveDown(1, maxY);
+        }
+    }
+    else if(key.keyCode == KEY_LEFT) {
+        if (this.isValidMovement(this.activePlayer.tileX - 1, this.activePlayer.tileY)) {
+            var maxX = this.maxMovementLeft(this.activePlayer);
+            this.activePlayer.moveLeft(1, maxX);
+        }
 
     }
+    else if(key.keyCode == KEY_RIGHT) {
+        if (this.isValidMovement(this.activePlayer.tileX + 1, this.activePlayer.tileY)) {
+            var maxX = this.maxMovementRight(this.activePlayer);
+            this.activePlayer.moveRight(1, maxX);
+        }
+
+    }
+}
+
+Game.prototype.maxMovementRight = function(player)
+{
+    return COLUMNS - 1;
+}
+
+Game.prototype.maxMovementLeft = function(player)
+{
+    return 0;
+}
+
+Game.prototype.maxMovementUp = function(player)
+{
+    return 0;
+}
+
+Game.prototype.maxMovementDown = function(player)
+{
+    return ROWS - 1;
+}
+
+Game.prototype.isValidMovement = function(x,y) {
+    console.log("x: "+x+" y: "+ y);
+    if (x < 0 || x >= COLUMNS) return false;
+    if (y < 0 || y >= ROWS) return false;
+
+    return true;
 }
 
 Game.prototype.loadLevel = function() {

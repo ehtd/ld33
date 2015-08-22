@@ -35,18 +35,46 @@ Dino.prototype.transform = function() {
     }
 }
 
-Dino.prototype.moveUp = function(value) {
-    this.tileY -= value;
+Dino.prototype.moveUp = function(value, maxValue) {
+    if (this.ballForm) {
+        this.tileY = maxValue;
+        this.transform();
+    }
+    else {
+        this.tileY -= value;
+    }
+
 }
 
-Dino.prototype.moveDown = function(value) {
-    this.tileY += value;
+Dino.prototype.moveDown = function(value, maxValue) {
+    if (this.ballForm) {
+        this.tileY = maxValue;
+        this.transform();
+    }
+    else {
+        this.tileY += value;
+    }
+
 }
 
-Dino.prototype.moveLeft = function(value) {
-    this.tileX -= value;
+Dino.prototype.moveLeft = function(value, maxValue) {
+    if (this.ballForm) {
+        this.tileX = maxValue;
+        this.transform();
+    }
+    else {
+        this.tileX -= value;
+    }
+
 }
 
-Dino.prototype.moveRight = function(value) {
-    this.tileX += value;
+Dino.prototype.moveRight = function(value, maxValue) {
+    if (this.ballForm) {
+        this.tileX = maxValue;
+        this.transform();
+    }
+    else {
+        this.tileX += value;
+    }
+
 }
