@@ -96,3 +96,11 @@ Dino.prototype.moveRight = function(value, maxValue) {
     }
 
 };
+
+Dino.prototype.eatSheep = function(value, maxValue) {
+    // TODO: eat animation, sound
+};
+
+Dino.prototype.toString = function() {
+    return DINO_PLACEHOLDER;
+};

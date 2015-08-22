@@ -38,6 +38,8 @@ Game.prototype.create = function() {
 
     this.activePlayer = null;
 
+    this.grid = this.initializeGrid();
+
     this.loadLevel();
 
     versioning(this.game);
@@ -131,9 +133,44 @@ Game.prototype.loadLevel = function() {
 
     var dino = new Dino(this.game, 6, 3);
     this.game.add.existing(dino);
+    this.grid[3][6] = dino;
 
-    var sheep = new Sheep(this.game, 0, 0);
+    var sheep = new Sheep(this.game, 3, 3);
     this.game.add.existing(sheep);
+    this.grid[3][3] = sheep;
 
+    this.printGrid(this.grid);
     this.activePlayer = dino;
 };
+
+// TODO: Move to other file
+Game.prototype.initializeGrid = function () {
+
+    var grid = [];
+
+    for (var j = 0; j < ROWS; j++) {
+        var column = [];
+
+        for (var i = 0; i < COLUMNS; i++) {
+            column.push(EMPTY_PLACEHOLDER);
+        }
+
+        grid.push(column);
+    }
+
+    return grid;
+}
+
+Game.prototype.printGrid = function(grid){
+
+    for (var j = 0; j < ROWS; j++) {
+
+        var s = '';
+        for (var i = 0; i < COLUMNS; i++) {
+            s += grid[j][i];
+        }
+        console.log(s);
+
+    }
+    console.log('\n');
+}

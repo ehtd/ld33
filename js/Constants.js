@@ -12,5 +12,9 @@ versioning = function(game) {
 }
 
 var TILE_SIZE = 90;
-COLUMNS = 9;
-ROWS = 7;
+var COLUMNS = 9;
+var ROWS = 7;
+
+var SHEEP_PLACEHOLDER = "[S]";
+var DINO_PLACEHOLDER = "[D]";
+var EMPTY_PLACEHOLDER = "[.]";

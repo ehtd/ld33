@@ -63,3 +63,7 @@ Sheep.prototype.moveRight = function(value, maxValue) {
     }
 
 };
+
+Sheep.prototype.toString = function() {
+    return SHEEP_PLACEHOLDER;
+};
