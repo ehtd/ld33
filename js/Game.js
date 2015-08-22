@@ -6,11 +6,11 @@ Game.prototype.preload = function() {
 
     // TODO: Load resources
 
-}
+};
 
 Game.prototype.shutdown = function() {
 
-}
+};
 
 Game.prototype.create = function() {
 
@@ -41,11 +41,11 @@ Game.prototype.create = function() {
     this.loadLevel();
 
     versioning(this.game);
-}
+};
 
 Game.prototype.update = function() {
 
-}
+};
 
 
 var KEY_Z = 90;
@@ -55,7 +55,7 @@ Game.prototype.transform = function (key){
     if (key.keyCode == KEY_Z) {
         this.activePlayer.transform();
     }
-}
+};
 
 var KEY_UP = 38;
 var KEY_DOWN = 40;
@@ -63,57 +63,54 @@ var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
 Game.prototype.movePlayer = function (key){
 
+    if (this.activePlayer == null) return;
     if (key.keyCode == undefined) return;
 
     console.log("Move: " +key.keyCode );
 
     if (key.keyCode == KEY_UP) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY - 1)) {
-            var maxY = this.maxMovementUp(this.activePlayer);
-            this.activePlayer.moveUp(1, maxY);
+            this.activePlayer.moveUp(1, this.maxMovementUp(this.activePlayer));
         }
     }
     else if (key.keyCode == KEY_DOWN) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY + 1)) {
-            var maxY = this.maxMovementDown(this.activePlayer);
-            this.activePlayer.moveDown(1, maxY);
+            this.activePlayer.moveDown(1, this.maxMovementDown(this.activePlayer));
         }
     }
     else if(key.keyCode == KEY_LEFT) {
         if (this.isValidMovement(this.activePlayer.tileX - 1, this.activePlayer.tileY)) {
-            var maxX = this.maxMovementLeft(this.activePlayer);
-            this.activePlayer.moveLeft(1, maxX);
+            this.activePlayer.moveLeft(1, this.maxMovementLeft(this.activePlayer));
         }
 
     }
     else if(key.keyCode == KEY_RIGHT) {
         if (this.isValidMovement(this.activePlayer.tileX + 1, this.activePlayer.tileY)) {
-            var maxX = this.maxMovementRight(this.activePlayer);
-            this.activePlayer.moveRight(1, maxX);
+            this.activePlayer.moveRight(1, this.maxMovementRight(this.activePlayer));
         }
 
     }
-}
+};
 
 Game.prototype.maxMovementRight = function(player)
 {
     return COLUMNS - 1;
-}
+};
 
 Game.prototype.maxMovementLeft = function(player)
 {
     return 0;
-}
+};
 
 Game.prototype.maxMovementUp = function(player)
 {
     return 0;
-}
+};
 
 Game.prototype.maxMovementDown = function(player)
 {
     return ROWS - 1;
-}
+};
 
 Game.prototype.isValidMovement = function(x,y) {
     console.log("x: "+x+" y: "+ y);
@@ -121,7 +118,7 @@ Game.prototype.isValidMovement = function(x,y) {
     if (y < 0 || y >= ROWS) return false;
 
     return true;
-}
+};
 
 Game.prototype.loadLevel = function() {
 
@@ -133,8 +130,10 @@ Game.prototype.loadLevel = function() {
     }
 
     var dino = new Dino(this.game, 6, 3);
-
     this.game.add.existing(dino);
 
+    var sheep = new Sheep(this.game, 0, 0);
+    this.game.add.existing(sheep);
+
     this.activePlayer = dino;
-}
+};
