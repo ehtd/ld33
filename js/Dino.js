@@ -1,12 +1,11 @@
 var Dino = function(game, tileX, tileY) {
-    this.tileSize = 90;
 
     this.tileX = tileX;
     this.tileY = tileY;
 
     this.ballForm = false;
 
-    Phaser.Sprite.call(this, game, tileX * this.tileSize, tileY * this.tileSize, 'dino');
+    Phaser.Sprite.call(this, game, tileX * TILE_SIZE, tileY * TILE_SIZE, 'dino');
 
     this.anchor.x = 0.3;
     this.anchor.y = 0.3;
@@ -16,8 +15,8 @@ Dino.prototype = Object.create(Phaser.Sprite.prototype);
 Dino.prototype.constructor = Tile;
 
 Dino.prototype.update = function() {
-    this.x = this.tileX * this.tileSize;
-    this.y = this.tileY * this.tileSize;
+    this.x = this.tileX * TILE_SIZE;
+    this.y = this.tileY * TILE_SIZE;
 
 };
 

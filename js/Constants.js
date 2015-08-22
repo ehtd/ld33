@@ -10,3 +10,7 @@ versioning = function(game) {
     var style = { font: "14px Arial", fill: "#000000", align: "center" };
     var text = game.add.text(775, 620, VERSION, style);
 }
+
+var TILE_SIZE = 90;
+COLUMNS = 9;
+ROWS = 7;

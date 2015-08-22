@@ -14,9 +14,6 @@ Game.prototype.shutdown = function() {
 
 Game.prototype.create = function() {
 
-    this.columns = 9;
-    this.rows = 7;
-
     this.startingOffsetY = 0;
     this.startingOffsetX = 0;
 
@@ -50,8 +47,8 @@ Game.prototype.update = function() {
 
 }
 
-var KEY_Z = 90;
 
+var KEY_Z = 90;
 Game.prototype.transform = function (key){
     console.log("Move: " +key.keyCode );
 
@@ -64,7 +61,6 @@ var KEY_UP = 38;
 var KEY_DOWN = 40;
 var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
-
 Game.prototype.movePlayer = function (key){
 
     if (key.keyCode == undefined) return;
@@ -88,11 +84,9 @@ Game.prototype.movePlayer = function (key){
 
 Game.prototype.loadLevel = function() {
 
-    var tileSize = 90;
-
-    for (var i = 0; i < this.columns; i++) {
-        for (var j = 0; j < this.rows; j++) {
-            var tile = new Tile(this.game, i * tileSize + this.startingOffsetX, tileSize * j + this.startingOffsetY);
+    for (var i = 0; i < COLUMNS; i++) {
+        for (var j = 0; j < ROWS; j++) {
+            var tile = new Tile(this.game, i * TILE_SIZE + this.startingOffsetX, TILE_SIZE * j + this.startingOffsetY);
             this.game.add.existing(tile);
         }
     }
