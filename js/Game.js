@@ -34,17 +34,14 @@ Game.prototype.create = function() {
     button = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
     button.onDown.add(this.transform, this);
 
-    this.game.stage.backgroundColor = '#DDDDDD';
+    button = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
+    button.onDown.add(this.restartLevel, this);
 
-    this.activePlayer = null;
+    this.game.stage.backgroundColor = '#DDDDDD';
 
     this.drawTiles();
 
-    this.grid = this.initializeGrid();
-
-    this.sheepGroup = this.game.add.group();
-
-    this.loadLevel();
+    this.startLevel();
 
     versioning(this.game);
 };
@@ -52,7 +49,6 @@ Game.prototype.create = function() {
 Game.prototype.update = function() {
 
 };
-
 
 var KEY_Z = 90;
 Game.prototype.transform = function (key){
@@ -228,21 +224,56 @@ Game.prototype.drawTiles = function() {
     }
 };
 
+Game.prototype.restartLevel = function() {
+    console.log("Restarting level");
+
+    this.cleanLevel();
+    this.startLevel();
+};
+
+Game.prototype.cleanLevel = function() {
+    this.activePlayer.destroy();
+    this.activePlayer = null;
+
+    this.sheepGroup.destroy(true, false);
+    this.grid = [];
+
+};
+
+Game.prototype.startLevel = function() {
+
+    this.grid = this.initializeGrid();
+
+    this.sheepGroup = this.game.add.group();
+
+    this.loadLevel();
+};
+
+
 Game.prototype.loadLevel = function() {
 
-    var hole = new Hole(this.game, 2, 2);
-    this.game.add.existing(hole);
-    this.grid[2][2] = hole;
+    var hole = this.addHole(2, 2);
 
-    var dino = new Dino(this.game, 6, 2);
-    this.game.add.existing(dino);
-    this.activePlayer = dino;
+    this.addDino(6, 2);
 
     var movements = [LEFT, UP];
     this.addSheep(3,3,movements, hole);
 
     movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
     this.addSheep(8,6,movements, hole);
+};
+
+Game.prototype.addDino = function(x, y) {
+    var dino = new Dino(this.game, x, y);
+    this.game.add.existing(dino);
+    this.activePlayer = dino;
+};
+
+Game.prototype.addHole = function(x, y) {
+    var hole = new Hole(this.game, x, y);
+    this.game.add.existing(hole);
+    this.grid[y][x] = hole;
+    return hole;
 };
 
 Game.prototype.addSheep = function(x,y, movements, hole) {

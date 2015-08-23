@@ -15,12 +15,14 @@ var TILE_SIZE = 90;
 var COLUMNS = 9;
 var ROWS = 7;
 
+// Grid keys
 var SHEEP_PLACEHOLDER = "[S]";
 var DINO_PLACEHOLDER = "[D]";
 var ROMANS_PLACEHOLDER = "[^]";
 var HOLE_PLACEHOLDER = "[O]";
 var EMPTY_PLACEHOLDER = "[.]";
 
+// Movement keys
 var UP = "u";
 var DOWN = "d";
 var LEFT = "l";
