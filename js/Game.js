@@ -218,7 +218,7 @@ Game.prototype.isValidMovement = function(x,y) {
 Game.prototype.drawTiles = function() {
     for (var i = 0; i < COLUMNS; i++) {
         for (var j = 0; j < ROWS; j++) {
-            var tile = new Tile(this.game, i * TILE_SIZE + this.startingOffsetX, TILE_SIZE * j + this.startingOffsetY);
+            var tile = new Tile(this.game, i * TILE_SIZE + OFFSET_X, TILE_SIZE * j + OFFSET_Y);
             this.game.add.existing(tile);
         }
     }

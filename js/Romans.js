@@ -7,6 +7,7 @@ var Romans = function(game, tileX, tileY) {
 
     this.ballForm = false;
 
+    // TODO: ADD OFFSETS
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2, tileY * TILE_SIZE + TILE_SIZE/2, 'romans');
 
     this.anchor.x = 0.5;

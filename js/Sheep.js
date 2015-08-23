@@ -13,7 +13,7 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
 
     this.ballForm = false;
 
-    Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2, tileY * TILE_SIZE + TILE_SIZE/2, 'sheep');
+    Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X, tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y, 'sheep');
 
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
@@ -23,8 +23,8 @@ Sheep.prototype = Object.create(Phaser.Sprite.prototype);
 Sheep.prototype.constructor = Tile;
 
 Sheep.prototype.update = function() {
-    this.x = this.tileX * TILE_SIZE + TILE_SIZE/2;
-    this.y = this.tileY * TILE_SIZE + TILE_SIZE/2;
+    this.x = this.tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X;
+    this.y = this.tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y;
 };
 
 Sheep.prototype.saveReference = function() {

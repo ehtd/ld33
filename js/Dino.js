@@ -8,7 +8,7 @@ var Dino = function(game, tileX, tileY) {
 
     this.id = DINO_PLACEHOLDER;
 
-    Phaser.Sprite.call(this, game, tileX * TILE_SIZE, tileY * TILE_SIZE, 'dino');
+    Phaser.Sprite.call(this, game, tileX * TILE_SIZE + OFFSET_X, tileY * TILE_SIZE + OFFSET_Y, 'dino');
 
     this.anchor.x = 0.3;
     this.anchor.y = 0.3;
@@ -18,9 +18,8 @@ Dino.prototype = Object.create(Phaser.Sprite.prototype);
 Dino.prototype.constructor = Tile;
 
 Dino.prototype.update = function() {
-    this.x = this.tileX * TILE_SIZE;
-    this.y = this.tileY * TILE_SIZE;
-
+    this.x = this.tileX * TILE_SIZE + OFFSET_X;
+    this.y = this.tileY * TILE_SIZE+ OFFSET_Y;
 };
 
 Dino.prototype.transform = function() {
