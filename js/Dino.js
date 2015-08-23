@@ -8,18 +8,35 @@ var Dino = function(game, tileX, tileY) {
 
     this.id = DINO_PLACEHOLDER;
 
-    Phaser.Sprite.call(this, game, tileX * TILE_SIZE + OFFSET_X, tileY * TILE_SIZE + OFFSET_Y, 'dino');
+    Phaser.Sprite.call(this, game, tileX * TILE_SIZE + OFFSET_X + TILE_SIZE/2, tileY * TILE_SIZE + OFFSET_Y + TILE_SIZE/2, 'dino');
 
-    this.anchor.x = 0.3;
-    this.anchor.y = 0.3;
+    this.animations.add('leftIdle', [3], 30, 1);
+    this.animations.add('rightIdle', [0], 30, 1);
+    this.animations.add('walkRight', [0,1,0,2], 30, 1);
+    this.animations.add('walkLeft', [3,4,3,4], 30, 1);
+
+    this.animations.add('happy', [6,7], 10, 1);
+    this.animations.add('sad', [8, 9], 10, 1);
+
+    var eat = this.animations.add('eat', [10,11,10,11,10,11], 10, 1);
+
+    this.events.onAnimationComplete.add(function(){
+        this.flip();
+    }, this);
+
+    this.animations.add('ball', [5], 10, 1);
+
+    this.animations.play('leftIdle');
+    this.anchor.x = 0.4;
+    this.anchor.y = 0.7;
 };
 
 Dino.prototype = Object.create(Phaser.Sprite.prototype);
 Dino.prototype.constructor = Tile;
 
 Dino.prototype.updatePosition = function() {
-    var x = this.tileX * TILE_SIZE + OFFSET_X;
-    var y = this.tileY * TILE_SIZE+ OFFSET_Y;
+    var x = this.tileX * TILE_SIZE + OFFSET_X + TILE_SIZE/2;
+    var y = this.tileY * TILE_SIZE+ OFFSET_Y + TILE_SIZE/2;
 
     this.game.add.tween(this).to({x:x, y:y},
         130,
@@ -30,9 +47,9 @@ Dino.prototype.transform = function() {
     this.ballForm = !this.ballForm;
 
     if (this.ballForm) {
-        this.loadTexture('dinoBall');
-        this.anchor.x = 0.1;
-        this.anchor.y = 0.1;
+        this.animations.play('ball');
+        this.anchor.x = 0.5;
+        this.anchor.y = 0.6;
     }
     else {
         this.flip()
@@ -41,14 +58,14 @@ Dino.prototype.transform = function() {
 
 Dino.prototype.flip = function() {
     if (this.faceLeft) {
-        this.loadTexture('dinoLeft');
-        this.anchor.x = 0.1;
-        this.anchor.y = 0.3;
+        this.animations.play('leftIdle');
+        this.anchor.x = 0.4;
+        this.anchor.y = 0.7;
     }
     else {
-        this.loadTexture('dino');
-        this.anchor.x = 0.3;
-        this.anchor.y = 0.3;
+        this.animations.play('rightIdle');
+        this.anchor.x = 0.6;
+        this.anchor.y = 0.7;
     }
 };
 
@@ -106,6 +123,7 @@ Dino.prototype.moveRight = function(value, maxValue) {
 Dino.prototype.eatSheep = function(value, maxValue) {
     // TODO: eat animation, sound
     console.log("Eating sheep");
+    this.animations.play('eat', 10, false);
 };
 
 Dino.prototype.toString = function() {
