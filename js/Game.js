@@ -38,7 +38,11 @@ Game.prototype.create = function() {
 
     this.activePlayer = null;
 
+    this.drawTiles();
+
     this.grid = this.initializeGrid();
+
+    this.sheepGroup = this.game.add.group();
 
     this.loadLevel();
 
@@ -92,6 +96,10 @@ Game.prototype.movePlayer = function (key){
         }
 
     }
+
+    this.sheepGroup.forEach(function(sheep){
+        sheep.moveToHole();
+    }, this);
 };
 
 Game.prototype.maxRightPosition = function(dino)
@@ -160,32 +168,36 @@ Game.prototype.isValidMovement = function(x,y) {
     return true;
 };
 
-Game.prototype.loadLevel = function() {
-
+Game.prototype.drawTiles = function() {
     for (var i = 0; i < COLUMNS; i++) {
         for (var j = 0; j < ROWS; j++) {
             var tile = new Tile(this.game, i * TILE_SIZE + this.startingOffsetX, TILE_SIZE * j + this.startingOffsetY);
             this.game.add.existing(tile);
         }
     }
+};
+
+Game.prototype.loadLevel = function() {
+
+
 
     var dino = new Dino(this.game, 6, 2);
     this.game.add.existing(dino);
-
-    var sheep = new Sheep(this.game, 3, 3);
-    this.game.add.existing(sheep);
-    this.grid[3][3] = sheep;
-
-    var sheep = new Sheep(this.game, 8, 6);
-    this.game.add.existing(sheep);
-    this.grid[6][8] = sheep;
+    this.activePlayer = dino;
 
     var hole = new Hole(this.game, 2, 2);
     this.game.add.existing(hole);
     this.grid[2][2] = hole;
 
-    this.activePlayer = dino;
+    var sheep = new Sheep(this.game, 3, 3, hole);
+    this.game.add.existing(sheep);
+    this.sheepGroup.add(sheep);
+    this.grid[3][3] = sheep;
 
+    var sheep = new Sheep(this.game, 8, 6, hole);
+    this.game.add.existing(sheep);
+    this.sheepGroup.add(sheep);
+    this.grid[6][8] = sheep;
 };
 
 Game.prototype.dinoCollideWithElement = function(dino) {

@@ -1,7 +1,8 @@
-var Sheep = function(game, tileX, tileY) {
+var Sheep = function(game, tileX, tileY, hole) {
 
     this.tileX = tileX;
     this.tileY = tileY;
+    this.hole = hole;
 
     this.id = SHEEP_PLACEHOLDER;
 
@@ -20,6 +21,26 @@ Sheep.prototype.update = function() {
     this.x = this.tileX * TILE_SIZE + TILE_SIZE/2;
     this.y = this.tileY * TILE_SIZE + TILE_SIZE/2;
 
+};
+
+Sheep.prototype.moveToHole = function() {
+    var xDistance = Math.abs(this.tileX - this.hole.tileX);
+    var yDistance = Math.abs(this.tileY - this.hole.tileY);
+    if (yDistance > xDistance) {
+        if (this.hole.tileY > this.tileY){ //Move down
+            this.tileY += 1;
+        }
+        else{ //Move up
+            this.tileY -= 1;
+        }
+    } else{
+        if (this.hole.tileX > this.tileX){ //Move right
+            this.tileX += 1;
+        }
+        else{ //Move left
+            this.tileX -= 1;
+        }
+    }
 };
 
 Sheep.prototype.moveUp = function(value, maxValue) {
