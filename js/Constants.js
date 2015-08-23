@@ -9,7 +9,7 @@ var CONSTANT_STATES = {
 versioning = function(game) {
     var style = { font: "14px Arial", fill: "#000000", align: "center" };
     var text = game.add.text(775, 620, VERSION, style);
-}
+};
 
 var TILE_SIZE = 90;
 var COLUMNS = 9;
@@ -20,3 +20,8 @@ var DINO_PLACEHOLDER = "[D]";
 var ROMANS_PLACEHOLDER = "[^]";
 var HOLE_PLACEHOLDER = "[O]";
 var EMPTY_PLACEHOLDER = "[.]";
+
+var UP = "u";
+var DOWN = "d";
+var LEFT = "l";
+var RIGHT = "r";

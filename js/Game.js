@@ -189,12 +189,14 @@ Game.prototype.loadLevel = function() {
     this.game.add.existing(hole);
     this.grid[2][2] = hole;
 
-    var sheep = new Sheep(this.game, 3, 3, hole);
+    var movements = [LEFT, UP];
+    var sheep = new Sheep(this.game, 3, 3, hole, movements);
     this.game.add.existing(sheep);
     this.sheepGroup.add(sheep);
     this.grid[3][3] = sheep;
 
-    var sheep = new Sheep(this.game, 8, 6, hole);
+    movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
+    sheep = new Sheep(this.game, 8, 6, hole, movements);
     this.game.add.existing(sheep);
     this.sheepGroup.add(sheep);
     this.grid[6][8] = sheep;

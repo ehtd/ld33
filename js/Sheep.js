@@ -1,8 +1,9 @@
-var Sheep = function(game, tileX, tileY, hole) {
+var Sheep = function(game, tileX, tileY, hole, movements) {
 
     this.tileX = tileX;
     this.tileY = tileY;
     this.hole = hole;
+    this.movements = movements;
 
     this.id = SHEEP_PLACEHOLDER;
 
@@ -24,67 +25,39 @@ Sheep.prototype.update = function() {
 };
 
 Sheep.prototype.moveToHole = function() {
-    var xDistance = Math.abs(this.tileX - this.hole.tileX);
-    var yDistance = Math.abs(this.tileY - this.hole.tileY);
-    if (yDistance > xDistance) {
-        if (this.hole.tileY > this.tileY){ //Move down
-            this.tileY += 1;
+
+    if (this.movements.length > 0) {
+        var action = this.movements.shift();
+
+        if (action == UP) {
+            this.moveUp(1);
         }
-        else{ //Move up
-            this.tileY -= 1;
+        else if (action == DOWN) {
+            this.moveDown(1);
         }
-    } else{
-        if (this.hole.tileX > this.tileX){ //Move right
-            this.tileX += 1;
+        else if (action == LEFT) {
+            this.moveLeft(1);
         }
-        else{ //Move left
-            this.tileX -= 1;
+        else if (action == RIGHT) {
+            this.moveRight(1);
         }
     }
 };
 
 Sheep.prototype.moveUp = function(value, maxValue) {
-    if (this.ballForm) {
-        this.tileY = maxValue;
-        this.transform();
-    }
-    else {
-        this.tileY -= value;
-    }
-
+    this.tileY -= value;
 };
 
 Sheep.prototype.moveDown = function(value, maxValue) {
-    if (this.ballForm) {
-        this.tileY = maxValue;
-        this.transform();
-    }
-    else {
-        this.tileY += value;
-    }
-
+    this.tileY += value;
 };
 
 Sheep.prototype.moveLeft = function(value, maxValue) {
-    if (this.ballForm) {
-        this.tileX = maxValue;
-        this.transform();
-    }
-    else {
-        this.tileX -= value;
-    }
-
+    this.tileX -= value;
 };
 
 Sheep.prototype.moveRight = function(value, maxValue) {
-    if (this.ballForm) {
-        this.tileX = maxValue;
-        this.transform();
-    }
-    else {
-        this.tileX += value;
-    }
-
+    this.tileX += value;
 };
 
 Sheep.prototype.toString = function() {
