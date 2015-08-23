@@ -77,29 +77,58 @@ Game.prototype.movePlayer = function (key){
     if (key.keyCode == KEY_UP) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY - 1)) {
             this.activePlayer.moveUp(1, this.minUpPosition(this.activePlayer));
+            this.checkSheepCollision();
         }
     }
     else if (key.keyCode == KEY_DOWN) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY + 1)) {
             this.activePlayer.moveDown(1, this.maxUpPosition(this.activePlayer));
+            this.checkSheepCollision();
         }
     }
     else if(key.keyCode == KEY_LEFT) {
         if (this.isValidMovement(this.activePlayer.tileX - 1, this.activePlayer.tileY)) {
             this.activePlayer.moveLeft(1, this.minLeftPosition(this.activePlayer));
+            this.checkSheepCollision();
         }
 
     }
     else if(key.keyCode == KEY_RIGHT) {
         if (this.isValidMovement(this.activePlayer.tileX + 1, this.activePlayer.tileY)) {
             this.activePlayer.moveRight(1, this.maxRightPosition(this.activePlayer));
+            this.checkSheepCollision();
         }
 
     }
 
-    this.sheepGroup.forEach(function(sheep){
-        sheep.moveToHole();
+    this.sheepGroup.forEachAlive(function(sheep) {
+
+        var xDistance = Math.abs(sheep.tileX - this.activePlayer.tileX);
+        var yDistance = Math.abs(sheep.tileY - this.activePlayer.tileY);
+        console.log("mx: "+xDistance+" my: "+yDistance);
+
+        if (xDistance <= 1 && yDistance <= 1) {
+            sheep.panic();
+        }
+        else {
+            sheep.calm();
+            sheep.moveToHole();
+        }
+
+        // TODO: Add delay
     }, this);
+};
+
+Game.prototype.checkSheepCollision = function() {
+    //this.printGrid(this.grid);
+    var gridItem = this.grid[this.activePlayer.tileY][this.activePlayer.tileX];
+    if (gridItem == EMPTY_PLACEHOLDER) return;
+
+    if (gridItem.id == SHEEP_PLACEHOLDER) {
+        gridItem.die();
+        gridItem.kill();
+        this.activePlayer.eatSheep();
+    }
 };
 
 Game.prototype.maxRightPosition = function(dino)
@@ -179,8 +208,6 @@ Game.prototype.drawTiles = function() {
 
 Game.prototype.loadLevel = function() {
 
-
-
     var dino = new Dino(this.game, 6, 2);
     this.game.add.existing(dino);
     this.activePlayer = dino;
@@ -190,13 +217,13 @@ Game.prototype.loadLevel = function() {
     this.grid[2][2] = hole;
 
     var movements = [LEFT, UP];
-    var sheep = new Sheep(this.game, 3, 3, hole, movements);
+    var sheep = new Sheep(this.game, 3, 3, hole, movements, this.grid);
     this.game.add.existing(sheep);
     this.sheepGroup.add(sheep);
     this.grid[3][3] = sheep;
 
     movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
-    sheep = new Sheep(this.game, 8, 6, hole, movements);
+    sheep = new Sheep(this.game, 8, 6, hole, movements, this.grid);
     this.game.add.existing(sheep);
     this.sheepGroup.add(sheep);
     this.grid[6][8] = sheep;
@@ -253,4 +280,4 @@ Game.prototype.printGrid = function(grid){
 
     }
     console.log('\n');
-}
+};

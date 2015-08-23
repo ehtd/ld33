@@ -1,9 +1,12 @@
-var Sheep = function(game, tileX, tileY, hole, movements) {
+var Sheep = function(game, tileX, tileY, hole, movements, grid) {
 
     this.tileX = tileX;
     this.tileY = tileY;
     this.hole = hole;
     this.movements = movements;
+    this.grid = grid;
+    this.objectReference = null;
+    this.afraid = false;
 
     this.id = SHEEP_PLACEHOLDER;
 
@@ -24,9 +27,36 @@ Sheep.prototype.update = function() {
 
 };
 
+Sheep.prototype.saveReference = function() {
+    //this.printGrid(this.grid);
+    this.objectReference = this.grid[this.tileY][this.tileX];
+    this.grid[this.tileY][this.tileX] = EMPTY_PLACEHOLDER;
+    //this.printGrid(this.grid);
+};
+
+Sheep.prototype.updateGridWithReference = function() {
+    //this.printGrid(this.grid);
+    this.grid[this.tileY][this.tileX] = this.objectReference;
+    this.objectReference = null;
+    //this.printGrid(this.grid);
+};
+
+Sheep.prototype.die = function() {
+    this.grid[this.tileY][this.tileX] = EMPTY_PLACEHOLDER;
+};
+
+Sheep.prototype.panic = function() {
+    this.afraid = true;
+    console.log("Sheep is afraid");
+};
+
+Sheep.prototype.calm = function() {
+    this.afraid = false;
+};
+
 Sheep.prototype.moveToHole = function() {
 
-    if (this.movements.length > 0) {
+    if (this.movements.length > 0 && this.afraid == false) {
         var action = this.movements.shift();
 
         if (action == UP) {
@@ -44,22 +74,44 @@ Sheep.prototype.moveToHole = function() {
     }
 };
 
-Sheep.prototype.moveUp = function(value, maxValue) {
+Sheep.prototype.moveUp = function(value) {
+    this.saveReference();
     this.tileY -= value;
+    this.updateGridWithReference();
 };
 
-Sheep.prototype.moveDown = function(value, maxValue) {
+Sheep.prototype.moveDown = function(value) {
+    this.saveReference();
     this.tileY += value;
+    this.updateGridWithReference();
 };
 
-Sheep.prototype.moveLeft = function(value, maxValue) {
+Sheep.prototype.moveLeft = function(value) {
+    this.saveReference();
     this.tileX -= value;
+    this.updateGridWithReference();
 };
 
-Sheep.prototype.moveRight = function(value, maxValue) {
+Sheep.prototype.moveRight = function(value) {
+    this.saveReference();
     this.tileX += value;
+    this.updateGridWithReference();
 };
 
 Sheep.prototype.toString = function() {
     return SHEEP_PLACEHOLDER;
+};
+
+Sheep.prototype.printGrid = function(grid){
+
+    for (var j = 0; j < ROWS; j++) {
+
+        var s = '';
+        for (var i = 0; i < COLUMNS; i++) {
+            s += grid[j][i];
+        }
+        console.log(s);
+
+    }
+    console.log('\n');
 };
