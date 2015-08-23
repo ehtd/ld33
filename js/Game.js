@@ -45,9 +45,19 @@ Game.prototype.create = function() {
 
     this.drawTiles();
 
+    this.fail = this.game.add.sprite(this.game.world.centerX, 250, 'fail');
+    this.fail.anchor.setTo(0.5, 0.5);
+    this.fail.visible = false;
+
+    this.complete = this.game.add.sprite(this.game.world.centerX, 250, 'complete');
+    this.complete.anchor.setTo(0.5, 0.5);
+    this.complete.visible = false;
+
     var r = this.game.add.sprite(10, 20, 'r');
     var l = this.game.add.sprite(this.game.world.centerX, 780, 'l');
     l.anchor.setTo(0.5, 0.5);
+
+    this.lockedControls = false;
 
     this.startLevel();
 };
@@ -73,6 +83,8 @@ Game.prototype.movePlayer = function (key){
 
     if (this.activePlayer == null) return;
     if (key.keyCode == undefined) return;
+
+    if (this.lockedControls == true) return;
 
     //console.log("Move: " +key.keyCode );
 
@@ -134,6 +146,20 @@ Game.prototype.movePlayer = function (key){
 
         // TODO: Add delay
     }, this);
+
+    for (var i = 0, len = this.sheepGroup.children.length; i < len; i++) {
+
+        if (this.sheepGroup.children[i].escaped == true) {
+            this.fail.visible = true;
+            var time = Phaser.Timer.SECOND * 3;
+            this.lockedControls = true;
+            this.game.time.events.add(time, this.restartLevel, this);
+            break;
+        }
+        console.log(this.sheepGroup.children[i]);
+    }
+
+
 };
 
 Game.prototype.checkSheepCollision = function() {
@@ -164,12 +190,18 @@ Game.prototype.winLevel = function() {
     console.log("Level cleared!");
 
     // TODO: lock input, present animations
+    this.lockedControls = true;
+    this.complete.visible = true;
 
-    this.nextLevel();
+    var time = Phaser.Timer.SECOND * 3;
+    this.game.time.events.add(time, this.nextLevel, this);
+
+    //this.nextLevel();
 };
 
 Game.prototype.failLevel = function() {
-    console.log("Sheep escaped!");
+    //console.log("Sheep escaped!");
+    //this.fail.visible = true;
 };
 
 Game.prototype.maxRightPosition = function(dino)
@@ -262,6 +294,10 @@ Game.prototype.cleanLevel = function() {
     this.holeGroup.destroy(true, false);
 
     this.grid = [];
+
+    this.complete.visible = false;
+    this.fail.visible = false;
+    this.lockedControls = false;
 };
 
 Game.prototype.nextLevel = function() {

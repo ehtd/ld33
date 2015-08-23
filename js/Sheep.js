@@ -8,6 +8,7 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
     this.objectReference = null;
     this.afraid = false;
     this.callback = callback;
+    this.escaped = false;
 
     this.id = SHEEP_PLACEHOLDER;
 
@@ -44,7 +45,8 @@ Sheep.prototype.saveReference = function() {
 Sheep.prototype.updateGridWithReference = function() {
     //this.printGrid(this.grid);
     if (this.grid[this.tileY][this.tileX] == HOLE_PLACEHOLDER) {
-        this.callback();
+        //this.callback();
+        this.escaped = true;
     } else {
         this.grid[this.tileY][this.tileX] = this.objectReference;
     }
