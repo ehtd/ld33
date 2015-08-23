@@ -11,9 +11,12 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
 
     this.id = SHEEP_PLACEHOLDER;
 
-    this.ballForm = false;
-
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X, tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y, 'sheep');
+
+    this.animations.add('normal', [0], 0, 1);
+    this.animations.add('scared', [0, 1, 2, 3], 30, 1);
+
+    this.animations.play('normal');
 
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
@@ -55,11 +58,13 @@ Sheep.prototype.die = function() {
 
 Sheep.prototype.panic = function() {
     this.afraid = true;
+    this.animations.play('scared');
     //console.log("Sheep is afraid");
 };
 
 Sheep.prototype.calm = function() {
     this.afraid = false;
+    this.animations.play('normal');
     //console.log("Sheep is calm");
 };
 

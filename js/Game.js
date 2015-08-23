@@ -124,6 +124,14 @@ Game.prototype.movePlayer = function (key){
             sheep.moveToHole();
         }
 
+        // Check if sheep approached dino and be scared
+        var xDistance = Math.abs(sheep.tileX - this.activePlayer.tileX);
+        var yDistance = Math.abs(sheep.tileY - this.activePlayer.tileY);
+
+        if (xDistance <= 1 && yDistance <= 1) {
+            sheep.panic();
+        }
+
         // TODO: Add delay
     }, this);
 };
@@ -398,7 +406,7 @@ Game.prototype.loadLevel6 = function() {
     var movements = [DOWN, DOWN, DOWN, DOWN, DOWN];
     this.addSheep(8,0,movements, hole1);
 
-    var movements = [LEFT,LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT];
+    var movements = [LEFT,LEFT, LEFT, LEFT, LEFT, LEFT, LEFT];
     this.addSheep(7,0,movements, hole3);
 
 };
