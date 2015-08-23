@@ -101,11 +101,14 @@ Game.prototype.movePlayer = function (key){
 
     }
 
+    this.checkForAliveSheeps();
+
+    // TODO: Move only after a successful movement?
     this.sheepGroup.forEachAlive(function(sheep) {
 
         var xDistance = Math.abs(sheep.tileX - this.activePlayer.tileX);
         var yDistance = Math.abs(sheep.tileY - this.activePlayer.tileY);
-        console.log("mx: "+xDistance+" my: "+yDistance);
+        //console.log("mx: "+xDistance+" my: "+yDistance);
 
         if (xDistance <= 1 && yDistance <= 1) {
             sheep.panic();
@@ -128,7 +131,26 @@ Game.prototype.checkSheepCollision = function() {
         gridItem.die();
         gridItem.kill();
         this.activePlayer.eatSheep();
+
     }
+};
+
+Game.prototype.checkForAliveSheeps = function() {
+    var aliveSheeps = this.sheepGroup.countLiving();
+
+    console.log("Sheeps alive: "+aliveSheeps);
+
+    if (aliveSheeps <= 0 ){
+        this.winLevel();
+    }
+};
+
+Game.prototype.winLevel = function() {
+    console.log("Level cleared!");
+};
+
+Game.prototype.failLevel = function() {
+    console.log("Sheep escaped!");
 };
 
 Game.prototype.maxRightPosition = function(dino)
@@ -190,7 +212,7 @@ Game.prototype.updateDinoInGrid = function(grid, x,y) {
 }
 
 Game.prototype.isValidMovement = function(x,y) {
-    console.log("x: "+x+" y: "+ y);
+    //console.log("x: "+x+" y: "+ y);
     if (x < 0 || x >= COLUMNS) return false;
     if (y < 0 || y >= ROWS) return false;
 
@@ -208,26 +230,27 @@ Game.prototype.drawTiles = function() {
 
 Game.prototype.loadLevel = function() {
 
-    var dino = new Dino(this.game, 6, 2);
-    this.game.add.existing(dino);
-    this.activePlayer = dino;
-
     var hole = new Hole(this.game, 2, 2);
     this.game.add.existing(hole);
     this.grid[2][2] = hole;
 
+    var dino = new Dino(this.game, 6, 2);
+    this.game.add.existing(dino);
+    this.activePlayer = dino;
+
     var movements = [LEFT, UP];
-    var sheep = new Sheep(this.game, 3, 3, hole, movements, this.grid);
-    this.game.add.existing(sheep);
-    this.sheepGroup.add(sheep);
-    this.grid[3][3] = sheep;
+    this.addSheep(3,3,movements, hole);
 
     movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
-    sheep = new Sheep(this.game, 8, 6, hole, movements, this.grid);
+    this.addSheep(8,6,movements, hole);
+};
+
+Game.prototype.addSheep = function(x,y, movements, hole) {
+    var sheep = new Sheep(this.game, x, y, hole, movements, this.grid, this.failLevel);
     this.game.add.existing(sheep);
     this.sheepGroup.add(sheep);
-    this.grid[6][8] = sheep;
-};
+    this.grid[y][x] = sheep;
+}
 
 Game.prototype.dinoCollideWithElement = function(dino) {
     var elementInGrid = this.grid[dino.tileY][dino.tileY];

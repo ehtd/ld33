@@ -1,4 +1,4 @@
-var Sheep = function(game, tileX, tileY, hole, movements, grid) {
+var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
 
     this.tileX = tileX;
     this.tileY = tileY;
@@ -7,6 +7,7 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid) {
     this.grid = grid;
     this.objectReference = null;
     this.afraid = false;
+    this.callback = callback;
 
     this.id = SHEEP_PLACEHOLDER;
 
@@ -24,7 +25,6 @@ Sheep.prototype.constructor = Tile;
 Sheep.prototype.update = function() {
     this.x = this.tileX * TILE_SIZE + TILE_SIZE/2;
     this.y = this.tileY * TILE_SIZE + TILE_SIZE/2;
-
 };
 
 Sheep.prototype.saveReference = function() {
@@ -36,7 +36,11 @@ Sheep.prototype.saveReference = function() {
 
 Sheep.prototype.updateGridWithReference = function() {
     //this.printGrid(this.grid);
-    this.grid[this.tileY][this.tileX] = this.objectReference;
+    if (this.grid[this.tileY][this.tileX] == HOLE_PLACEHOLDER) {
+        this.callback();
+    } else {
+        this.grid[this.tileY][this.tileX] = this.objectReference;
+    }
     this.objectReference = null;
     //this.printGrid(this.grid);
 };
@@ -47,11 +51,12 @@ Sheep.prototype.die = function() {
 
 Sheep.prototype.panic = function() {
     this.afraid = true;
-    console.log("Sheep is afraid");
+    //console.log("Sheep is afraid");
 };
 
 Sheep.prototype.calm = function() {
     this.afraid = false;
+    //console.log("Sheep is calm");
 };
 
 Sheep.prototype.moveToHole = function() {
