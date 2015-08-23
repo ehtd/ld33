@@ -22,7 +22,7 @@
 
     window.onload = function() {
 
-        var game = new Phaser.Game(832, 640, Phaser.AUTO, 'gameContainer');
+        var game = new Phaser.Game(1000, 800, Phaser.AUTO, 'gameContainer');
 
         game.state.add(CONSTANT_STATES.GAME, Game);
         game.state.add(CONSTANT_STATES.BOOT, Boot);

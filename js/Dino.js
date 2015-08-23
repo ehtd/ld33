@@ -17,9 +17,13 @@ var Dino = function(game, tileX, tileY) {
 Dino.prototype = Object.create(Phaser.Sprite.prototype);
 Dino.prototype.constructor = Tile;
 
-Dino.prototype.update = function() {
-    this.x = this.tileX * TILE_SIZE + OFFSET_X;
-    this.y = this.tileY * TILE_SIZE+ OFFSET_Y;
+Dino.prototype.updatePosition = function() {
+    var x = this.tileX * TILE_SIZE + OFFSET_X;
+    var y = this.tileY * TILE_SIZE+ OFFSET_Y;
+
+    this.game.add.tween(this).to({x:x, y:y},
+        130,
+        Phaser.Easing.Cubic.InOut).start();
 };
 
 Dino.prototype.transform = function() {
@@ -57,6 +61,7 @@ Dino.prototype.moveUp = function(value, maxValue) {
         this.tileY -= value;
     }
 
+    this.updatePosition();
 };
 
 Dino.prototype.moveDown = function(value, maxValue) {
@@ -67,7 +72,7 @@ Dino.prototype.moveDown = function(value, maxValue) {
     else {
         this.tileY += value;
     }
-
+    this.updatePosition();
 };
 
 Dino.prototype.moveLeft = function(value, maxValue) {
@@ -81,7 +86,7 @@ Dino.prototype.moveLeft = function(value, maxValue) {
         this.faceLeft = true;
         this.flip();
     }
-
+    this.updatePosition();
 };
 
 Dino.prototype.moveRight = function(value, maxValue) {
@@ -95,7 +100,7 @@ Dino.prototype.moveRight = function(value, maxValue) {
         this.faceLeft = false;
         this.flip();
     }
-
+    this.updatePosition();
 };
 
 Dino.prototype.eatSheep = function(value, maxValue) {

@@ -14,8 +14,8 @@ versioning = function(game) {
 var TILE_SIZE = 90;
 var COLUMNS = 9;
 var ROWS = 7;
-var OFFSET_X = 50;
-var OFFSET_Y = 0;
+var OFFSET_X = (1000 - (TILE_SIZE * COLUMNS))/2;
+var OFFSET_Y = 130;
 
 // Grid keys
 var SHEEP_PLACEHOLDER = "[S]";

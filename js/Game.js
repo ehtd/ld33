@@ -37,7 +37,7 @@ Game.prototype.create = function() {
     button = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
     button.onDown.add(this.restartLevel, this);
 
-    this.game.stage.backgroundColor = '#DDDDDD';
+    this.game.stage.backgroundColor = '#679C1D';
 
     this.drawTiles();
 
