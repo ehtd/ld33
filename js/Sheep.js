@@ -22,9 +22,13 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
 Sheep.prototype = Object.create(Phaser.Sprite.prototype);
 Sheep.prototype.constructor = Tile;
 
-Sheep.prototype.update = function() {
-    this.x = this.tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X;
-    this.y = this.tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y;
+Sheep.prototype.updatePosition = function() {
+    var x = this.tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X;
+    var y = this.tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y;
+
+    this.game.add.tween(this).to({x:x, y:y},
+        130,
+        Phaser.Easing.Cubic.InOut).start();
 };
 
 Sheep.prototype.saveReference = function() {
@@ -83,24 +87,28 @@ Sheep.prototype.moveUp = function(value) {
     this.saveReference();
     this.tileY -= value;
     this.updateGridWithReference();
+    this.updatePosition();
 };
 
 Sheep.prototype.moveDown = function(value) {
     this.saveReference();
     this.tileY += value;
     this.updateGridWithReference();
+    this.updatePosition();
 };
 
 Sheep.prototype.moveLeft = function(value) {
     this.saveReference();
     this.tileX -= value;
     this.updateGridWithReference();
+    this.updatePosition();
 };
 
 Sheep.prototype.moveRight = function(value) {
     this.saveReference();
     this.tileX += value;
     this.updateGridWithReference();
+    this.updatePosition();
 };
 
 Sheep.prototype.toString = function() {
