@@ -13,6 +13,7 @@
     <script src="js/Sheep.js"></script>
     <script src="js/Romans.js"></script>
     <script src="js/Hole.js"></script>
+    <script src="js/Menu.js"></script>
 </head>
 <body>
 
@@ -27,6 +28,7 @@
         game.state.add(CONSTANT_STATES.GAME, Game);
         game.state.add(CONSTANT_STATES.BOOT, Boot);
         game.state.add(CONSTANT_STATES.PRELOAD, Preload);
+        game.state.add(CONSTANT_STATES.MENU, Menu);
 
         game.state.start(CONSTANT_STATES.BOOT);
 

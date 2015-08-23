@@ -254,7 +254,7 @@ Game.prototype.loadLevel = function() {
 
     var hole = this.addHole(2, 2);
 
-    this.addDino(6, 2);
+    this.addDino(3, 4);
 
     var movements = [LEFT, UP];
     this.addSheep(3,3,movements, hole);

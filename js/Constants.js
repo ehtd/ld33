@@ -1,14 +1,15 @@
-var VERSION = "v. 0.0.1";
+var VERSION = "v 0.1.0";
 
 var CONSTANT_STATES = {
     GAME:'GameState',
     BOOT:'Boot',
-    PRELOAD:'Preload'
+    PRELOAD:'Preload',
+    MENU: 'Menu'
 };
 
 versioning = function(game) {
-    var style = { font: "14px Arial", fill: "#000000", align: "center" };
-    var text = game.add.text(775, 620, VERSION, style);
+    var style = { font: "14px Arial", fill: "#AAAAAA", align: "center" };
+    var text = game.add.text(950, 780, VERSION, style);
 };
 
 var TILE_SIZE = 90;
