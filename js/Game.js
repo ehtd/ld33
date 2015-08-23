@@ -41,9 +41,10 @@ Game.prototype.create = function() {
 
     this.drawTiles();
 
-    this.startLevel();
+    var r = this.game.add.sprite(10, 20, 'r');
 
-    versioning(this.game);
+    this.startLevel();
+    
 };
 
 Game.prototype.update = function() {
