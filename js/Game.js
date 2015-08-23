@@ -52,7 +52,7 @@ Game.prototype.update = function() {
 
 var KEY_Z = 90;
 Game.prototype.transform = function (key){
-    console.log("Move: " +key.keyCode );
+    //console.log("Move: " +key.keyCode );
 
     if (key.keyCode == KEY_Z) {
         this.activePlayer.transform();
@@ -68,51 +68,89 @@ Game.prototype.movePlayer = function (key){
     if (this.activePlayer == null) return;
     if (key.keyCode == undefined) return;
 
-    console.log("Move: " +key.keyCode );
+    //console.log("Move: " +key.keyCode );
 
     if (key.keyCode == KEY_UP) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY - 1)) {
-            this.activePlayer.moveUp(1, this.maxMovementUp(this.activePlayer));
+            this.activePlayer.moveUp(1, this.minUpPosition(this.activePlayer));
         }
     }
     else if (key.keyCode == KEY_DOWN) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY + 1)) {
-            this.activePlayer.moveDown(1, this.maxMovementDown(this.activePlayer));
+            this.activePlayer.moveDown(1, this.maxUpPosition(this.activePlayer));
         }
     }
     else if(key.keyCode == KEY_LEFT) {
         if (this.isValidMovement(this.activePlayer.tileX - 1, this.activePlayer.tileY)) {
-            this.activePlayer.moveLeft(1, this.maxMovementLeft(this.activePlayer));
+            this.activePlayer.moveLeft(1, this.minLeftPosition(this.activePlayer));
         }
 
     }
     else if(key.keyCode == KEY_RIGHT) {
         if (this.isValidMovement(this.activePlayer.tileX + 1, this.activePlayer.tileY)) {
-            this.activePlayer.moveRight(1, this.maxMovementRight(this.activePlayer));
+            this.activePlayer.moveRight(1, this.maxRightPosition(this.activePlayer));
         }
 
     }
 };
 
-Game.prototype.maxMovementRight = function(player)
+Game.prototype.maxRightPosition = function(dino)
 {
-    return COLUMNS - 1;
+    var maxRightPosition = dino.tileX + 1;
+
+    while (maxRightPosition < COLUMNS - 1
+    && this.availableSpaceInGrid(this.grid, maxRightPosition, dino.tileY)) {
+        maxRightPosition++;
+    }
+    //console.log("max right position: ", maxRightPosition);
+    return maxRightPosition;
 };
 
-Game.prototype.maxMovementLeft = function(player)
+Game.prototype.minLeftPosition = function(dino)
 {
-    return 0;
+    var minLeftPosition = dino.tileX - 1;
+
+    while (minLeftPosition > 0
+           && this.availableSpaceInGrid(this.grid, minLeftPosition, dino.tileY)) {
+        minLeftPosition--;
+    }
+    //console.log("max left position: ", minLeftPosition);
+    return minLeftPosition;
 };
 
-Game.prototype.maxMovementUp = function(player)
+Game.prototype.minUpPosition = function(dino)
 {
-    return 0;
+    var minUpPosition = dino.tileY - 1;
+
+    while (minUpPosition > 0
+    && this.availableSpaceInGrid(this.grid, dino.tileX, minUpPosition)) {
+        minUpPosition--;
+    }
+    //console.log("min up position: ", minUpPosition);
+    return minUpPosition;
 };
 
-Game.prototype.maxMovementDown = function(player)
+Game.prototype.maxUpPosition = function(dino)
 {
-    return ROWS - 1;
+    var maxUpPosition = dino.tileY + 1;
+
+    while (maxUpPosition < ROWS - 1
+    && this.availableSpaceInGrid(this.grid, dino.tileX, maxUpPosition)) {
+        maxUpPosition++;
+    }
+    //console.log("max up position: ", maxUpPosition);
+    return maxUpPosition;
 };
+
+Game.prototype.clearElementInGrid = function(grid, x,y) {
+    grid[y][x] = EMPTY_PLACEHOLDER;
+    //this.printGrid(grid);
+}
+
+Game.prototype.updateDinoInGrid = function(grid, x,y) {
+    grid[y][x] = DINO_PLACEHOLDER;
+    //this.printGrid(grid);
+}
 
 Game.prototype.isValidMovement = function(x,y) {
     console.log("x: "+x+" y: "+ y);
@@ -131,19 +169,38 @@ Game.prototype.loadLevel = function() {
         }
     }
 
-    var dino = new Dino(this.game, 6, 3);
+    var dino = new Dino(this.game, 6, 2);
     this.game.add.existing(dino);
-    this.grid[3][6] = dino;
 
     var sheep = new Sheep(this.game, 3, 3);
     this.game.add.existing(sheep);
     this.grid[3][3] = sheep;
 
-    this.printGrid(this.grid);
     this.activePlayer = dino;
+
+};
+
+Game.prototype.dinoCollideWithElement = function(dino) {
+    var elementInGrid = this.grid[dino.tileY][dino.tileY];
+
+    if (elementInGrid == EMPTY_PLACEHOLDER) {
+        return false;
+    }
+
+    return true;
 };
 
 // TODO: Move to other file
+
+Game.prototype.availableSpaceInGrid = function(grid, x, y) {
+    var elementInGrid = this.grid[y][x];
+
+    if (elementInGrid == EMPTY_PLACEHOLDER) {
+        return true;
+    }
+    return false;
+}
+
 Game.prototype.initializeGrid = function () {
 
     var grid = [];

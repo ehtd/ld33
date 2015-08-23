@@ -3,6 +3,8 @@ var Sheep = function(game, tileX, tileY) {
     this.tileX = tileX;
     this.tileY = tileY;
 
+    this.id = SHEEP_PLACEHOLDER;
+
     this.ballForm = false;
 
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2, tileY * TILE_SIZE + TILE_SIZE/2, 'sheep');

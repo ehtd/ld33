@@ -6,6 +6,8 @@ var Dino = function(game, tileX, tileY) {
     this.ballForm = false;
     this.faceLeft = false;
 
+    this.id = DINO_PLACEHOLDER;
+
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE, tileY * TILE_SIZE, 'dino');
 
     this.anchor.x = 0.3;
@@ -99,6 +101,7 @@ Dino.prototype.moveRight = function(value, maxValue) {
 
 Dino.prototype.eatSheep = function(value, maxValue) {
     // TODO: eat animation, sound
+    console.log("Eating sheep");
 };
 
 Dino.prototype.toString = function() {
