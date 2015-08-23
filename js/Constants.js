@@ -17,4 +17,6 @@ var ROWS = 7;
 
 var SHEEP_PLACEHOLDER = "[S]";
 var DINO_PLACEHOLDER = "[D]";
+var ROMANS_PLACEHOLDER = "[^]";
+var HOLE_PLACEHOLDER = "[O]";
 var EMPTY_PLACEHOLDER = "[.]";

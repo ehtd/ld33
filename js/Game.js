@@ -176,6 +176,14 @@ Game.prototype.loadLevel = function() {
     this.game.add.existing(sheep);
     this.grid[3][3] = sheep;
 
+    var sheep = new Sheep(this.game, 8, 6);
+    this.game.add.existing(sheep);
+    this.grid[6][8] = sheep;
+
+    var hole = new Hole(this.game, 2, 2);
+    this.game.add.existing(hole);
+    this.grid[2][2] = hole;
+
     this.activePlayer = dino;
 
 };
@@ -195,7 +203,8 @@ Game.prototype.dinoCollideWithElement = function(dino) {
 Game.prototype.availableSpaceInGrid = function(grid, x, y) {
     var elementInGrid = this.grid[y][x];
 
-    if (elementInGrid == EMPTY_PLACEHOLDER) {
+    // TODO: Get stuck in hole?
+    if (elementInGrid == EMPTY_PLACEHOLDER || elementInGrid == HOLE_PLACEHOLDER) {
         return true;
     }
     return false;

@@ -10,6 +10,8 @@ Preload.prototype.preload = function() {
     this.load.image('dinoLeft', 'assets/graphics/dinoLeft.png');
     this.load.image('dinoBall', 'assets/graphics/dinoBall.png');
     this.load.image('sheep', 'assets/graphics/sheep.png');
+    this.load.image('romans', 'assets/graphics/romans.png');
+    this.load.image('hole', 'assets/graphics/hole.png');
 };
 
 Preload.prototype.create = function() {
