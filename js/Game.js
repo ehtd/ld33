@@ -291,6 +291,9 @@ Game.prototype.loadLevel = function() {
     else if (this.game.currentLevel == 5) {
         this.loadLevel5();
     }
+    else if (this.game.currentLevel == 6) {
+        this.loadLevel6();
+    }
     else {
         console.log("wrong level!");
 
@@ -376,6 +379,28 @@ Game.prototype.loadLevel5 = function() {
 
     var movements = [RIGHT,RIGHT, DOWN, DOWN];
     this.addSheep(1,1,movements, hole2);
+};
+
+Game.prototype.loadLevel6 = function() {
+    var hole1 = this.addHole(8, 5);
+    var hole2 = this.addHole(2, 6);
+    var hole3 = this.addHole(0, 0);
+    var hole4 = this.addHole(0, 3);
+
+    this.addDino(8, 2);
+
+    var movements = [DOWN, DOWN, DOWN, DOWN];
+    this.addSheep(2,2,movements, hole2);
+
+    var movements = [UP, UP, UP];
+    this.addSheep(0,6,movements, hole4);
+
+    var movements = [DOWN, DOWN, DOWN, DOWN, DOWN];
+    this.addSheep(8,0,movements, hole1);
+
+    var movements = [LEFT,LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT];
+    this.addSheep(7,0,movements, hole3);
+
 };
 
 
