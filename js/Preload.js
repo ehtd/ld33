@@ -23,5 +23,5 @@ Preload.prototype.preload = function() {
 Preload.prototype.create = function() {
 
     console.log("Finish preload");
-    this.game.state.start(CONSTANT_STATES.MENU);
+    this.game.state.start(CONSTANT_STATES.GAME);
 };

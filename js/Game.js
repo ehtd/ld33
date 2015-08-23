@@ -14,8 +14,7 @@ Game.prototype.shutdown = function() {
 
 Game.prototype.create = function() {
 
-    this.startingOffsetY = 0;
-    this.startingOffsetX = 0;
+    this.sheepCanMove = true;
 
     console.log("Entering Game");
 
@@ -77,6 +76,8 @@ Game.prototype.movePlayer = function (key){
 
     //console.log("Move: " +key.keyCode );
 
+    this.sheepCanMove = true;
+
     if (key.keyCode == KEY_UP) {
         if (this.isValidMovement(this.activePlayer.tileX, this.activePlayer.tileY - 1)) {
             this.activePlayer.moveUp(1, this.minUpPosition(this.activePlayer));
@@ -108,6 +109,8 @@ Game.prototype.movePlayer = function (key){
 
     // TODO: Move only after a successful movement?
     this.sheepGroup.forEachAlive(function(sheep) {
+
+        if (this.sheepCanMove == false) return;
 
         var xDistance = Math.abs(sheep.tileX - this.activePlayer.tileX);
         var yDistance = Math.abs(sheep.tileY - this.activePlayer.tileY);
@@ -141,15 +144,20 @@ Game.prototype.checkSheepCollision = function() {
 Game.prototype.checkForAliveSheeps = function() {
     var aliveSheeps = this.sheepGroup.countLiving();
 
-    console.log("Sheeps alive: "+aliveSheeps);
+    //console.log("Sheeps alive: "+aliveSheeps);
 
     if (aliveSheeps <= 0 ){
+        this.sheepCanMove = false;
         this.winLevel();
     }
 };
 
 Game.prototype.winLevel = function() {
     console.log("Level cleared!");
+
+    // TODO: lock input, present animations
+
+    this.nextLevel();
 };
 
 Game.prototype.failLevel = function() {
@@ -243,8 +251,14 @@ Game.prototype.cleanLevel = function() {
     this.activePlayer = null;
 
     this.sheepGroup.destroy(true, false);
-    this.grid = [];
+    this.holeGroup.destroy(true, false);
 
+    this.grid = [];
+};
+
+Game.prototype.nextLevel = function() {
+    this.game.currentLevel++;
+    this.restartLevel();
 };
 
 Game.prototype.startLevel = function() {
@@ -252,6 +266,7 @@ Game.prototype.startLevel = function() {
     this.grid = this.initializeGrid();
 
     this.sheepGroup = this.game.add.group();
+    this.holeGroup = this.game.add.group();
 
     this.loadLevel();
 };
@@ -259,16 +274,87 @@ Game.prototype.startLevel = function() {
 
 Game.prototype.loadLevel = function() {
 
-    var hole = this.addHole(2, 2);
+    var levelToLoad = this.game.currentLevel;
 
-    this.addDino(3, 4);
+    if (this.game.currentLevel == 1) {
+        this.loadLevel1();
+    }
+    else if (this.game.currentLevel == 2) {
+        this.loadLevel2();
+    }
+    else if (this.game.currentLevel == 3) {
+        this.loadLevel3();
+    }
+    else if (this.game.currentLevel == 4) {
+        this.loadLevel4();
+    }
+    else {
+        console.log("wrong level!");
 
-    var movements = [LEFT, UP];
-    this.addSheep(3,3,movements, hole);
+        var hole = this.addHole(2, 2);
 
-    movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
-    this.addSheep(8,6,movements, hole);
+        this.addDino(3, 4);
+
+        var movements = [LEFT, UP];
+        this.addSheep(3,3,movements, hole);
+
+        movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
+        this.addSheep(8,6,movements, hole);
+    }
 };
+
+Game.prototype.loadLevel1 = function() {
+    var hole = this.addHole(5, 5);
+
+    this.addDino(3, 3);
+
+    var movements = [LEFT, LEFT, LEFT, DOWN, DOWN];
+    this.addSheep(8,3,movements, hole);
+};
+
+Game.prototype.loadLevel2 = function() {
+    var hole = this.addHole(8, 6);
+
+    this.addDino(1, 1);
+
+    var movements = [DOWN, DOWN];
+    this.addSheep(8,4,movements, hole);
+};
+
+Game.prototype.loadLevel3 = function() {
+    var hole1 = this.addHole(0, 0);
+    var hole2 = this.addHole(0, 6);
+    var hole3 = this.addHole(8, 6);
+
+    this.addDino(4, 3);
+
+    var movements = [DOWN, DOWN, DOWN, DOWN];
+    this.addSheep(8,2,movements, hole3);
+
+    var movements = [UP,UP,UP];
+    this.addSheep(0,3,movements, hole1);
+
+    var movements = [LEFT,LEFT];
+    this.addSheep(2,6,movements, hole2);
+};
+
+Game.prototype.loadLevel4 = function() {
+    var hole1 = this.addHole(4, 3);
+    var hole2 = this.addHole(3, 3);
+    var hole3 = this.addHole(5, 3);
+
+    this.addDino(1, 6);
+
+    var movements = [LEFT,LEFT,LEFT];
+    this.addSheep(8,3,movements, hole3);
+
+    var movements = [RIGHT,RIGHT,RIGHT];
+    this.addSheep(0,3,movements, hole1);
+
+    var movements = [RIGHT,RIGHT,RIGHT, DOWN, DOWN];
+    this.addSheep(1,1,movements, hole2);
+};
+
 
 Game.prototype.addDino = function(x, y) {
     var dino = new Dino(this.game, x, y);
@@ -280,6 +366,7 @@ Game.prototype.addHole = function(x, y) {
     var hole = new Hole(this.game, x, y);
     this.game.add.existing(hole);
     this.grid[y][x] = hole;
+    this.holeGroup.add(hole);
     return hole;
 };
 
