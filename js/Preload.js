@@ -17,10 +17,11 @@ Preload.prototype.preload = function() {
     this.load.image('r', 'assets/graphics/r.png');
     this.load.image('z', 'assets/graphics/z.png');
     this.load.image('enter', 'assets/graphics/enter.png');
+    this.load.image('l', 'assets/graphics/l.png');
 };
 
 Preload.prototype.create = function() {
 
     console.log("Finish preload");
-    this.game.state.start(CONSTANT_STATES.GAME);
+    this.game.state.start(CONSTANT_STATES.MENU);
 };

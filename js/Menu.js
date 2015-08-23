@@ -27,7 +27,7 @@ Menu.prototype.create = function() {
     var arrows = this.game.add.sprite(230, 650, 'arrows');
     arrows.anchor.setTo(0.5, 0.5);
 
-    var enter = this.game.add.sprite(this.game.world.centerX, 750, 'enter');
+    var enter = this.game.add.sprite(this.game.world.centerX, 780, 'enter');
     enter.anchor.setTo(0.5, 0.5);
 
     versioning(this.game);
