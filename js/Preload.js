@@ -20,9 +20,9 @@ Preload.prototype.preload = function() {
     this.load.image('complete', 'assets/graphics/complete.png');
     this.load.image('finished', 'assets/graphics/finished.png');
 
-    this.game.load.audio('beee', 'assets/sfx/beee.mp3');
-    this.game.load.audio('munch', 'assets/sfx/munch.mp3');
-
+    this.load.audio('beee', 'assets/sfx/beee.mp3');
+    this.load.audio('munch', 'assets/sfx/munch.mp3');
+    this.load.audio('ost', 'assets/sfx/ost.mp3');
 };
 
 Preload.prototype.create = function() {
