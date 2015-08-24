@@ -41,10 +41,10 @@ Game.prototype.create = function() {
     button = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
     button.onDown.add(this.restartLevel, this);
 
-    button = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
-    button.onDown.add(function(){
-        this.game.state.start(CONSTANT_STATES.MENU);
-    }, this);
+    //button = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
+    //button.onDown.add(function(){
+    //    this.game.state.start(CONSTANT_STATES.MENU);
+    //}, this);
 
     this.game.stage.backgroundColor = '#679C1D';
 
@@ -59,8 +59,8 @@ Game.prototype.create = function() {
     this.complete.visible = false;
 
     var r = this.game.add.sprite(10, 20, 'r');
-    var l = this.game.add.sprite(this.game.world.centerX, 780, 'l');
-    l.anchor.setTo(0.5, 0.5);
+    //var l = this.game.add.sprite(this.game.world.centerX, 780, 'l');
+    //l.anchor.setTo(0.5, 0.5);
 
     this.lockedControls = false;
 
