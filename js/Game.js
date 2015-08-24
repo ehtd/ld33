@@ -151,6 +151,7 @@ Game.prototype.movePlayer = function (key){
 
         if (this.sheepGroup.children[i].escaped == true) {
             this.fail.visible = true;
+            this.activePlayer.sad();
             var time = Phaser.Timer.SECOND * 3;
             this.lockedControls = true;
             this.game.time.events.add(time, this.restartLevel, this);
@@ -189,7 +190,7 @@ Game.prototype.checkForAliveSheeps = function() {
 Game.prototype.winLevel = function() {
     console.log("Level cleared!");
 
-    // TODO: lock input, present animations
+    this.activePlayer.happy();
     this.lockedControls = true;
     this.complete.visible = true;
 

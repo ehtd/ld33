@@ -126,6 +126,14 @@ Dino.prototype.eatSheep = function(value, maxValue) {
     this.animations.play('eat', 10, false);
 };
 
+Dino.prototype.sad = function() {
+    this.animations.play('sad', 5, true);
+};
+
+Dino.prototype.happy = function() {
+    this.animations.play('happy', 5, true);
+};
+
 Dino.prototype.toString = function() {
     return DINO_PLACEHOLDER;
 };
