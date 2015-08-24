@@ -3,10 +3,6 @@ var Menu = function(game) {
 };
 
 Menu.prototype.create = function() {
-
-    this.ost = this.game.add.audio("ost", 1, true);
-    this.ost.play();
-
     console.log("Loaded menu");
     this.game.stage.backgroundColor = '#679C1D';
 
