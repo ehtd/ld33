@@ -16,6 +16,11 @@ Game.prototype.create = function() {
 
     this.sheepCanMove = true;
 
+    this.sfx = {
+        beee: this.game.add.audio("bee"),
+        munch: this.game.add.audio("munch")
+    };
+
     console.log("Entering Game");
 
     var button = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);

@@ -14,6 +14,8 @@ var Sheep = function(game, tileX, tileY, hole, movements, grid, callback) {
 
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE + TILE_SIZE/2 + OFFSET_X, tileY * TILE_SIZE + TILE_SIZE/2 + OFFSET_Y, 'sheep');
 
+    this.beee = this.game.add.audio("beee");
+
     this.animations.add('normal', [0], 0, 1);
     this.animations.add('scared', [0, 1, 2, 3], 30, 1);
 
@@ -47,6 +49,7 @@ Sheep.prototype.updateGridWithReference = function() {
     if (this.grid[this.tileY][this.tileX] == HOLE_PLACEHOLDER) {
         //this.callback();
         this.escaped = true;
+        this.beee.play();
     } else {
         this.grid[this.tileY][this.tileX] = this.objectReference;
     }
@@ -61,6 +64,7 @@ Sheep.prototype.die = function() {
 Sheep.prototype.panic = function() {
     this.afraid = true;
     this.animations.play('scared');
+
     //console.log("Sheep is afraid");
 };
 

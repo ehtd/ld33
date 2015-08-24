@@ -19,10 +19,14 @@ Preload.prototype.preload = function() {
     this.load.image('fail', 'assets/graphics/fail.png');
     this.load.image('complete', 'assets/graphics/complete.png');
     this.load.image('finished', 'assets/graphics/finished.png');
+
+    this.game.load.audio('beee', 'assets/sfx/beee.mp3');
+    this.game.load.audio('munch', 'assets/sfx/munch.mp3');
+
 };
 
 Preload.prototype.create = function() {
 
     console.log("Finish preload");
-    this.game.state.start(CONSTANT_STATES.END);
+    this.game.state.start(CONSTANT_STATES.MENU);
 };

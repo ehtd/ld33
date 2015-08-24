@@ -10,6 +10,8 @@ var Dino = function(game, tileX, tileY) {
 
     Phaser.Sprite.call(this, game, tileX * TILE_SIZE + OFFSET_X + TILE_SIZE/2, tileY * TILE_SIZE + OFFSET_Y + TILE_SIZE/2, 'dino');
 
+    this.munch = this.game.add.audio("munch");
+
     this.animations.add('leftIdle', [3], 30, 1);
     this.animations.add('rightIdle', [0], 30, 1);
     this.animations.add('walkRight', [0,1,0,2], 30, 1);
@@ -121,7 +123,7 @@ Dino.prototype.moveRight = function(value, maxValue) {
 };
 
 Dino.prototype.eatSheep = function(value, maxValue) {
-    // TODO: eat animation, sound
+    this.munch.play();
     console.log("Eating sheep");
     this.animations.play('eat', 10, false);
 };
