@@ -18,10 +18,11 @@ Preload.prototype.preload = function() {
 
     this.load.image('fail', 'assets/graphics/fail.png');
     this.load.image('complete', 'assets/graphics/complete.png');
+    this.load.image('finished', 'assets/graphics/finished.png');
 };
 
 Preload.prototype.create = function() {
 
     console.log("Finish preload");
-    this.game.state.start(CONSTANT_STATES.GAME);
+    this.game.state.start(CONSTANT_STATES.END);
 };

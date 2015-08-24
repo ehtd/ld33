@@ -340,17 +340,7 @@ Game.prototype.loadLevel = function() {
         this.loadLevel6();
     }
     else {
-        console.log("wrong level!");
-
-        var hole = this.addHole(2, 2);
-
-        this.addDino(0,0);
-
-        var movements = [LEFT, UP];
-        this.addSheep(3,3,movements, hole);
-
-        movements = [LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,UP,UP,UP,UP];
-        this.addSheep(8,6,movements, hole);
+        this.game.state.start(CONSTANT_STATES.END);
     }
 };
 

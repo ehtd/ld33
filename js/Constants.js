@@ -4,7 +4,8 @@ var CONSTANT_STATES = {
     GAME:'GameState',
     BOOT:'Boot',
     PRELOAD:'Preload',
-    MENU: 'Menu'
+    MENU: 'Menu',
+    END: 'End'
 };
 
 versioning = function(game) {
